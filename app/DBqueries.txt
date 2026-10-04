@@ -69,5 +69,52 @@ print(password_hash.verify("K7!mQ2@xP9", stored_hash))
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJ1c2VyMDEiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3OTEwNTE3OTB9.5FT0HX1aVi6UnLThnr04zk2-q6bl2bJeZTM4ocZUiKE",
   "token_type": "bearer"
 }
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price NUMERIC(10, 2) NOT NULL,
+    stock_quantity INTEGER NOT NULL DEFAULT 0,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
+
+INSERT INTO products
+    (id, name, description, price, stock_quantity, is_active)
+VALUES
+    (1, 'prarabdh', 'strong boy', 3650, 100, TRUE),
+    (4, 'shephali rai', NULL, 500, 90, TRUE),
+    (3, 'raja insaan12', 'It is updated by Patch operation', 4000, 9, FALSE);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    hashed_password TEXT NOT NULL,
+    role VARCHAR(50) NOT NULL DEFAULT 'user',
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+
+INSERT INTO users
+    (id, username, email, hashed_password, role, is_active)
+VALUES
+    (
+        1,
+        'user01',
+        'user01@example.test',
+        '$argon2id$v=19$m=65536,t=3,p=4$jO5ENReATeCb+2Y+5eWyGQ$1BI790DTVrpSyVlizT8Kn+Z1Qc/iY3xjMo14fnGnStY',
+        'admin',
+        TRUE
+    ),
+    (
+        2,
+        'user02',
+        'user02@example.test',
+        '$argon2id$v=19$m=65536,t=3,p=4$3oMNkLZ9kM9A7F7589/ZVg$Bet5XmbDfvKqJLphM5a+eWK/N4cRFUpLFBEcOWf4vyQ',
+        'user',
+        TRUE
+    );
 
