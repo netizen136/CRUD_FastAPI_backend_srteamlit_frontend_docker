@@ -1,6 +1,8 @@
+app==0.0.1
 fastapi==0.143.0
 pwdlib==0.3.1
 pydantic==2.14.0
 pydantic_settings==2.15.0
 PyJWT==2.15.1
 SQLAlchemy==2.1.4
+streamlit==1.65.0
