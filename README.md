@@ -19,10 +19,10 @@ app/
 
 ## Dependencies
 
-Install the application dependencies in your Python environment:
+Install the backend and Streamlit frontend dependencies from the repository root:
 
 ```powershell
-python -m pip install fastapi "uvicorn[standard]" sqlalchemy pydantic pydantic-settings "psycopg[binary]" PyJWT "pwdlib[argon2]" python-multipart
+python -m pip install -r requirements.txt
 ```
 
 Configure `app/.env` with the database URL and required token settings:
@@ -239,3 +239,19 @@ Response (`200 OK`): an array of products using the product response shape above
 - `app/controllers/product_controller.py`: injects `verify_token_and_get_current_user` into the PUT and PATCH handlers. That dependency reads the `Authorization: Bearer ...` header, loads the user, and rejects invalid, expired, missing, or inactive-user tokens.
 
 The login route issues tokens; protected route dependencies validate them. The dependency does not call the login route.
+
+## Run the Streamlit frontend
+
+Start the FastAPI backend in one terminal from the repository root:
+
+```powershell
+python -m uvicorn app.main:app --reload
+```
+
+In a second terminal, also from the repository root, start the frontend:
+
+```powershell
+python -m streamlit run frontend_streamlit.py
+```
+
+Streamlit opens the frontend in your browser. It connects to `http://127.0.0.1:8000` by default; change the **FastAPI base URL** in the sidebar to use a different API address. The login token is kept for the current Streamlit session and is sent with the protected PUT and PATCH requests.
