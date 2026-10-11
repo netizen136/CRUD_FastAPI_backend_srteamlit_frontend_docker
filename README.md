@@ -1,7 +1,7 @@
 # Product Learning API
 
 A FastAPI product CRUD API backed by PostgreSQL and SQLAlchemy.
-
+![alt text](<FastAPI Product API Architecture Flow.png>)
 ## Project structure
 
 ```text
