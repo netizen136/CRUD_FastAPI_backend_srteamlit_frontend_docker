@@ -251,7 +251,7 @@ python -m uvicorn app.main:app --reload
 In a second terminal, also from the repository root, start the frontend:
 
 ```powershell
-python -m streamlit run frontend_streamlit.py
+python -m streamlit run app/frontend_streamlit.py
 ```
 
 Streamlit opens the frontend in your browser. It connects to `http://127.0.0.1:8000` by default; change the **FastAPI base URL** in the sidebar to use a different API address. The login token is kept for the current Streamlit session and is sent with the protected PUT and PATCH requests.
