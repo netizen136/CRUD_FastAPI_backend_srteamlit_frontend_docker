@@ -6,15 +6,15 @@ WORKDIR /app
 # layer when application code changes but the requirements stay the same.
 # Copying all of app/ first would work, but every code edit would invalidate
 # this layer and rerun pip install on the next build.
-COPY app/requirements.txt ./requirements.txt
+COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt \
     "uvicorn[standard]" \
     "psycopg[binary]" \
     python-multipart
 
 # Copy application source after installing dependencies. .dockerignore keeps
-# local files such as app/.env out of the image build context.
-COPY app/ ./app/
+# local files such as .env out of the image build context.
+COPY . ./app/
 
 # EXPOSE is Optional metadata/documentation for the ports used by the apps.
 # EXPOSE does not publish ports; use `docker run -p HOST_PORT:CONTAINER_PORT`.
