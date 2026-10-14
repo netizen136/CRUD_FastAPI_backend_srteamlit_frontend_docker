@@ -270,8 +270,14 @@ docker network create product-network
 Run FastAPI and Streamlit as separate containers from that same image. From the repository root:
 
 ```powershell
-docker run -d --name api --network product-network -p 8000:8000 --env-file app/.env product-api
-docker run -d --name frontend --network product-network -p 8051:8051 -e FASTAPI_BASE_URL=http://api:8000 product-api python -m streamlit run app/frontend_streamlit.py --server.address=0.0.0.0 --server.port=8051
+	1. Start FastAPI container
+      docker run -d --name api --network product-network -p 8000:8000 
+      --env-file .\.env 
+      -e "DATABASE_URL=postgresql+psycopg://postgres:8630@host.docker.internal:5432/learningFastAPIdb" 
+      product-api
+
+  2. Start Streamlit container
+      docker run -d --name frontend --network product-network -p 8051:8051 -e FASTAPI_BASE_URL=http://api:8000 product-api python -m streamlit run app/frontend_streamlit.py --server.address=0.0.0.0 --server.port=8051
 ```
 
 Open `http://localhost:8051` for Streamlit and `http://localhost:8000/docs` for FastAPI. The API container uses settings supplied by `app/.env`; that file is excluded from the image. PostgreSQL must be reachable from the API container. If PostgreSQL runs on the Docker host, use `host.docker.internal` instead of `localhost` in `DATABASE_URL`. The `product-network` network only needs to be created once; remove the containers with `docker stop api frontend` and `docker rm api frontend` when finished.
