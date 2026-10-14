@@ -257,3 +257,21 @@ python -m streamlit run app/frontend_streamlit.py
 ```
 
 Streamlit opens the frontend in your browser. It connects to `http://127.0.0.1:8000` by default; change the **FastAPI base URL** in the sidebar to use a different API address. The login token is kept for the current Streamlit session and is sent with the protected PUT and PATCH requests.
+
+## Run with Docker (without Compose)
+
+Build one image containing both applications:
+
+```powershell
+docker build -t product-api .
+docker network create product-network
+```
+
+Run FastAPI and Streamlit as separate containers from that same image. From the repository root:
+
+```powershell
+docker run -d --name api --network product-network -p 8000:8000 --env-file app/.env product-api
+docker run -d --name frontend --network product-network -p 8051:8051 -e FASTAPI_BASE_URL=http://api:8000 product-api python -m streamlit run app/frontend_streamlit.py --server.address=0.0.0.0 --server.port=8051
+```
+
+Open `http://localhost:8051` for Streamlit and `http://localhost:8000/docs` for FastAPI. The API container uses settings supplied by `app/.env`; that file is excluded from the image. PostgreSQL must be reachable from the API container. If PostgreSQL runs on the Docker host, use `host.docker.internal` instead of `localhost` in `DATABASE_URL`. The `product-network` network only needs to be created once; remove the containers with `docker stop api frontend` and `docker rm api frontend` when finished.

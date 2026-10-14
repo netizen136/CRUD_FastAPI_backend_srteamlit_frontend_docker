@@ -427,46 +427,46 @@ with tabs[5]:
 
 
 
-"""
-In app/frontend_streamlit.py, st is the usual alias for the Streamlit library (import streamlit as st). These are the Streamlit calls and attributes used in this file, grouped by what they do.
+# """
+# In app/frontend_streamlit.py, st is the usual alias for the Streamlit library (import streamlit as st). These are the Streamlit calls and attributes used in this file, grouped by what they do.
 
-Page layout and text
-st.set_page_config(...) — Sets page-level options, such as the browser tab title, icon, and layout. It appears near the top because Streamlit expects it to run before other Streamlit commands.
-st.title(...) — Displays the page’s main heading.
-st.header(...) — Displays a prominent section heading; here, it labels the API connection controls in the sidebar.
-st.subheader(...) — Displays a smaller section heading, such as “Browse products.”
-st.caption(...) — Displays small supporting text under a heading or control.
-st.divider() — Draws a horizontal separator between groups of controls.
-Layout containers
-These are used with Python’s with statement to place content in different parts of the page:
+# Page layout and text
+# st.set_page_config(...) — Sets page-level options, such as the browser tab title, icon, and layout. It appears near the top because Streamlit expects it to run before other Streamlit commands.
+# st.title(...) — Displays the page’s main heading.
+# st.header(...) — Displays a prominent section heading; here, it labels the API connection controls in the sidebar.
+# st.subheader(...) — Displays a smaller section heading, such as “Browse products.”
+# st.caption(...) — Displays small supporting text under a heading or control.
+# st.divider() — Draws a horizontal separator between groups of controls.
+# Layout containers
+# These are used with Python’s with statement to place content in different parts of the page:
 
-st.sidebar — A container for controls in the page’s sidebar. It is a Streamlit object, not a function.
-st.tabs([...]) — Creates a row of tabs and returns one container for each tab. with tabs[0]: puts the following code in the first tab.
-st.columns(n) — Splits an area into columns and returns their containers. This app uses two columns for the health and ping checks.
-st.form("name") — Groups related widgets into a form. While a user edits fields, the form doesn’t submit; its controls are submitted together when the form’s submit button is clicked.
-Input widgets
-Input widgets display controls and return their current values, which the script then uses to build requests or check user input.
+# st.sidebar — A container for controls in the page’s sidebar. It is a Streamlit object, not a function.
+# st.tabs([...]) — Creates a row of tabs and returns one container for each tab. with tabs[0]: puts the following code in the first tab.
+# st.columns(n) — Splits an area into columns and returns their containers. This app uses two columns for the health and ping checks.
+# st.form("name") — Groups related widgets into a form. While a user edits fields, the form doesn’t submit; its controls are submitted together when the form’s submit button is clicked.
+# Input widgets
+# Input widgets display controls and return their current values, which the script then uses to build requests or check user input.
 
-st.text_input(...) — A single-line text field, used for the API URL, login details, names, descriptions, and date input.
-st.number_input(...) — A number field with optional minimum, maximum, starting value, and step size. The product ID, price, stock, and pagination fields use it.
-st.checkbox(...) — A true/false control, used for product active status and delete confirmation.
-st.radio(...) — Lets the user choose one option, used to choose between PUT and PATCH.
-st.selectbox(...) — A dropdown for choosing one option, used for active status and sorting.
-st.multiselect(...) — Lets the user choose multiple options, used to select which fields to update with PATCH.
-Some widgets use a key argument. It gives a widget a stable, unique identity in Streamlit. The product_fields() helper adds a prefix to its keys so its create, PUT, and PATCH fields don’t clash.
+# st.text_input(...) — A single-line text field, used for the API URL, login details, names, descriptions, and date input.
+# st.number_input(...) — A number field with optional minimum, maximum, starting value, and step size. The product ID, price, stock, and pagination fields use it.
+# st.checkbox(...) — A true/false control, used for product active status and delete confirmation.
+# st.radio(...) — Lets the user choose one option, used to choose between PUT and PATCH.
+# st.selectbox(...) — A dropdown for choosing one option, used for active status and sorting.
+# st.multiselect(...) — Lets the user choose multiple options, used to select which fields to update with PATCH.
+# Some widgets use a key argument. It gives a widget a stable, unique identity in Streamlit. The product_fields() helper adds a prefix to its keys so its create, PUT, and PATCH fields don’t clash.
 
-Buttons and messages
-st.button(...) — Displays a button and returns True on the rerun caused by clicking it. The app puts API calls inside if st.button(...): so they run only when requested.
-st.form_submit_button(...) — Displays a submit button for a form. Its value tells the script whether the user submitted that form in the current rerun.
-st.success(...) — Displays a success message.
-st.info(...) — Displays an informational message, such as the reminder to log in before updating a product.
-st.error(...) — Displays validation or API error messages.
-st.json(...) — Displays a response as formatted JSON, useful for viewing product data returned by the backend.
-Session state and reruns
-st.session_state — Stores values across Streamlit’s full-script reruns for the current browser session. This app stores the login token here. It is an attribute, not a function; for example, st.session_state["api_token"] = token saves a value, and st.session_state.get("api_token") retrieves it.
-st.rerun() — Stops the current run and starts the script again immediately. The logout button uses it after clearing the saved token so the page updates to the logged-out state.
-The key Streamlit idea
-Streamlit scripts run from top to bottom again after interactions. Regular widgets can trigger reruns as their values change; forms batch changes until submission. In this app, button and form-submit checks control when HTTP requests are sent, while session state preserves the login token between reruns.
+# Buttons and messages
+# st.button(...) — Displays a button and returns True on the rerun caused by clicking it. The app puts API calls inside if st.button(...): so they run only when requested.
+# st.form_submit_button(...) — Displays a submit button for a form. Its value tells the script whether the user submitted that form in the current rerun.
+# st.success(...) — Displays a success message.
+# st.info(...) — Displays an informational message, such as the reminder to log in before updating a product.
+# st.error(...) — Displays validation or API error messages.
+# st.json(...) — Displays a response as formatted JSON, useful for viewing product data returned by the backend.
+# Session state and reruns
+# st.session_state — Stores values across Streamlit’s full-script reruns for the current browser session. This app stores the login token here. It is an attribute, not a function; for example, st.session_state["api_token"] = token saves a value, and st.session_state.get("api_token") retrieves it.
+# st.rerun() — Stops the current run and starts the script again immediately. The logout button uses it after clearing the saved token so the page updates to the logged-out state.
+# The key Streamlit idea
+# Streamlit scripts run from top to bottom again after interactions. Regular widgets can trigger reruns as their values change; forms batch changes until submission. In this app, button and form-submit checks control when HTTP requests are sent, while session state preserves the login token between reruns.
 
-The HTTP requests themselves use Python’s urllib utilities in this file, not st. functions. st. is used to build the interface and keep track of its state.
-"""
+# The HTTP requests themselves use Python’s urllib utilities in this file, not st. functions. st. is used to build the interface and keep track of its state.
+# """
